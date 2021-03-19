@@ -1,23 +1,28 @@
-import { MutationTree } from 'vuex'
+import { GetterTree, MutationTree } from "vuex";
 
 export const state = () => ({
-    user: {},
-    token: '',
-    credential: {}
-})
+    email: "",
+    displayName: "",
+    token: ""
+});
 
-export type RootState = ReturnType<typeof state>
+export type RootState = ReturnType<typeof state>;
 
-interface loginUserInfo{
-    user: Object,
-    token: string,
-    credential: Object
+export const getters: GetterTree<RootState, RootState> = {
+    // @ts-ignore
+    email: state => state.email,
+    // @ts-ignore
+    displayName: state => state.displayName
 }
 
 export const mutations: MutationTree<RootState> = {
-    loginUser(state, payload: loginUserInfo){
-        state.user = payload.user
-        state.token = payload.token
-        state.credential = payload.credential
+    setEmail(state, payload) {
+        state.email = payload;
+    },
+    setDisplayName(state, payload) {
+        state.displayName = payload;
+    },
+    setToken(state, payload) {
+        state.token = payload;
     }
-}
+};

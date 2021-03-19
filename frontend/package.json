@@ -13,7 +13,8 @@
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.8.3",
     "firebase": "^8.3.1",
-    "nuxt": "^2.14.12"
+    "nuxt": "^2.14.12",
+    "nuxt-typed-vuex": "^0.1.22"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.12",
