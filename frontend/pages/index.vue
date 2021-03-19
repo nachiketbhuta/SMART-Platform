@@ -9,9 +9,12 @@
                     Get started with
                     <span class="teal--text text--accent-4">Commercio</span>
                 </h5>
-                <v-btn @click="login" class="white black--text mt-2">
+                <v-btn v-if="!loggedIn" @click="login" class="white black--text mt-2">
                     <v-img height="20" width="20" :src="googleIcon"></v-img>
                     <span class="ml-2">Login with Google</span>
+                </v-btn>
+                <v-btn @click="$router.push('/dashboard')" class="mt-3" v-else>
+                    Go to Dashboard
                 </v-btn>
                 <br />
             </v-col>
@@ -31,7 +34,13 @@ export default Vue.extend({
             email: "",
             displayName: "",
             token: "",
+            loggedIn: false,
         };
+    },
+    created() {
+        if (this.$store.state.email != "") {
+            this.loggedIn = true
+        }
     },
     methods: {
         login() {
@@ -56,6 +65,8 @@ export default Vue.extend({
                         this.$store.commit("setEmail", this.email);
                         this.$store.commit("setDisplayName", this.displayName);
                         this.$store.commit("setToken", token);
+
+                        this.$router.push("/dashboard");
                     }
                 })
                 .catch((error) => {

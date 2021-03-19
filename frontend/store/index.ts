@@ -12,7 +12,8 @@ export const getters: GetterTree<RootState, RootState> = {
     // @ts-ignore
     email: state => state.email,
     // @ts-ignore
-    displayName: state => state.displayName
+    displayName: state => state.displayName,
+    token: state => state.token
 }
 
 export const mutations: MutationTree<RootState> = {
@@ -26,3 +27,4 @@ export const mutations: MutationTree<RootState> = {
         state.token = payload;
     }
 };
+
