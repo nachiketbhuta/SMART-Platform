@@ -1,15 +1,11 @@
-from typing import Optional
-
 from fastapi import FastAPI
-from pydantic import BaseModel
-
 from fastapi.middleware.cors import CORSMiddleware
+
+from routers.nse import nse_router
 
 app = FastAPI()
 
 origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:8080",
 ]
@@ -22,20 +18,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class Item(BaseModel):
-    name: str
-    price: float
-    is_offer: Optional[bool] = None
+app.include_router(nse_router, prefix="/nse", tags=["nse"])
 
 @app.get("/")
 def index():
     return {"msg": "Hello World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
-
-@app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
-    return {"item_name": item.name, "item_id": item_id}
