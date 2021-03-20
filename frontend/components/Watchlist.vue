@@ -8,7 +8,9 @@
                             </v-list-item-icon> -->
                 <v-list-item-content>
                     <v-list-item-title v-text="item.text"></v-list-item-title>
-                    <v-list-item-subtitle> 129.25 </v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                        {{ item.price }}
+                    </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
         </v-list-item-group>
@@ -16,16 +18,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
 export default Vue.extend({
-    props:{
+    props: {
         items: {
             type: Array,
-            required: true
-        }
+            required: true,
+        },
     },
     data: () => ({
-        selected: 0
-    })
-})
+        selected: 0,
+    }),
+});
 </script>

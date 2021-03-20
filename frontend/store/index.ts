@@ -3,7 +3,8 @@ import { GetterTree, MutationTree } from "vuex";
 export const state = () => ({
     email: "",
     displayName: "",
-    token: ""
+    token: "",
+    pageTitle: "Commercio"
 });
 
 export type RootState = ReturnType<typeof state>;
@@ -13,7 +14,8 @@ export const getters: GetterTree<RootState, RootState> = {
     email: state => state.email,
     // @ts-ignore
     displayName: state => state.displayName,
-    token: state => state.token
+    token: state => state.token,
+    pageTitle: state => state.pageTitle
 }
 
 export const mutations: MutationTree<RootState> = {
@@ -25,6 +27,9 @@ export const mutations: MutationTree<RootState> = {
     },
     setToken(state, payload) {
         state.token = payload;
+    },
+    setPageTitle(state, payload){
+        state.pageTitle = payload
     }
 };
 
