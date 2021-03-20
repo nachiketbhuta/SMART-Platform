@@ -9,13 +9,13 @@
 
             <v-btn depressed @click="logout">Logout</v-btn>
         </v-app-bar>
-        <v-navigation-drawer v-model="drawer" app>
+        <v-navigation-drawer color="teal" v-model="drawer" app>
             <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title class="title">
-                        Application
+                        Commercio
                     </v-list-item-title>
-                    <v-list-item-subtitle> subtext </v-list-item-subtitle>
+                    <v-list-item-subtitle> {{ $store.getters.email }} </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
 
