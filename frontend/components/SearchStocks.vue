@@ -11,27 +11,20 @@
             v-model="selected"
             :items="items"
         >
+            <template v-slot:no-data>
+                <v-list-item>
+                    <span class="subheading">No results</span>
+                </v-list-item>
+            </template>
             <template v-slot:item="{ index, item }">
-                <!-- <v-text-field
-                    v-if="editing === item"
-                    v-model="editing.text"
-                    autofocus
-                    flat
-                    background-color="transparent"
-                    hide-details
-                    solo
-                    @keyup.enter="edit(index, item)"
-                ></v-text-field> -->
-                <div>
-                    <v-chip-group>
-                        <v-chip color="teal" dark label small>
-                            {{ item[Object.keys(item)[0]] }}
-                        </v-chip>
-                        <v-chip color="secondary" dark label small>
-                            {{ item[Object.keys(item)[1]] }}
-                        </v-chip>
-                    </v-chip-group>
-                </div>
+                <v-chip-group>
+                    <v-chip color="teal" dark label small>
+                        {{ item[Object.keys(item)[0]] }}
+                    </v-chip>
+                    <v-chip color="secondary" dark label small>
+                        {{ item[Object.keys(item)[1]] }}
+                    </v-chip>
+                </v-chip-group>
             </template>
         </v-combobox>
     </div>
@@ -57,13 +50,15 @@ export default Vue.extend({
                     console.log(data);
                 });
         },
-        onSelected(){
+        onSelected() {
             //Phew. This finally does it!
-            if(typeof this.selected == 'object'){
-                this.$router.push('/dashboard/' + this.selected[Object.keys(this.selected)[0]])
-                this.selected = ''
+            if (typeof this.selected == "object") {
+                this.$router.push(
+                    "/dashboard/" + this.selected[Object.keys(this.selected)[0]]
+                );
+                this.selected = "";
             }
-        }
+        },
     },
 });
 </script>

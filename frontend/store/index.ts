@@ -4,7 +4,8 @@ export const state = () => ({
     email: "",
     displayName: "",
     token: "",
-    pageTitle: "Commercio"
+    pageTitle: "Commercio",
+    watchlist: []
 });
 
 export type RootState = ReturnType<typeof state>;
@@ -15,7 +16,8 @@ export const getters: GetterTree<RootState, RootState> = {
     // @ts-ignore
     displayName: state => state.displayName,
     token: state => state.token,
-    pageTitle: state => state.pageTitle
+    pageTitle: state => state.pageTitle,
+    watchlist: state => state.watchlist
 }
 
 export const mutations: MutationTree<RootState> = {
@@ -30,6 +32,9 @@ export const mutations: MutationTree<RootState> = {
     },
     setPageTitle(state, payload){
         state.pageTitle = payload
+    },
+    setWatchlist(state, payload){
+        state.watchlist = payload
     }
 };
 

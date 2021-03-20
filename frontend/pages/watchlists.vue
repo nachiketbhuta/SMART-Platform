@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <h1>Watchlist</h1>
-        {{ valid }}
+        <!-- {{ valid }}
         <v-form @submit.prevent="searchAndAdd" ref="form" v-model="valid">
             <v-text-field
                 :rules="rules"
@@ -9,7 +9,7 @@
                 solo
                 v-model="search"
             ></v-text-field>
-        </v-form>
+        </v-form> -->
 
         <v-list>
             <v-list-item v-for="(item, i) in watchlist" :key="i">
@@ -80,8 +80,11 @@ export default Vue.extend({
                     } else {
                         // @ts-ignore
                         this.watchlist = doc.data().watchlist as string[];
+                        // @ts-ignore
+                        this.$store.commit('setWatchlist', doc.data().watchlist as string[])
                     }
                 });
+
         },
         searchAndAdd() {
             if(this.valid){

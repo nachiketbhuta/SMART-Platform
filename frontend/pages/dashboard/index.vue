@@ -33,6 +33,7 @@
 import Vue from "vue";
 import firebase from "firebase";
 import Watchlist from "~/components/Watchlist.vue";
+import { refresh } from "less";
 
 export default Vue.extend({
     components: { Watchlist },
@@ -51,11 +52,13 @@ export default Vue.extend({
             .then((doc) => {
                 if (!doc.exists) {
                     alert(
-                        "User data not found in the database. Logout and Login again"
+                        "User doc not found in system."
                     );
                 } else {
                     // @ts-ignore
                     this.watchlist = doc.data().watchlist as string[];
+                    // @ts-ignore
+                    this.$store.commit('setWatchlist', doc.data().watchlist as string[])
                 }
             });
     },

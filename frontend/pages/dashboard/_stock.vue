@@ -5,7 +5,8 @@
                 <v-card-title> {{ stock }} </v-card-title>
                 <v-card-subtitle> {{ price }} </v-card-subtitle>
                 <v-card-actions>
-                    <v-btn>Add to Watchlist</v-btn>
+                    <v-btn v-if="!watchlist.includes(stock)" @click="addToWatchlist" color="teal" depressed>Add to Watchlist</v-btn>
+                    <v-btn v-else @click="removeFromWatchlist" color="teal" depressed>Remove from Watchlist</v-btn>
                 </v-card-actions>
             </v-card>
             <trading-vue
@@ -31,6 +32,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import firebase from 'firebase'
 import sample_data from "@/utils/sample_data.json";
 
 // import SetupIndicator from '~/components/SetupIndicator';
@@ -45,6 +47,7 @@ export default Vue.extend({
         };
     },
     name: "StockChart",
+
     // Importing manually will also throw `windows is not defined error`
     // Using `components: true` in nuxt.config.js
     // components: { TradingVue }
@@ -68,6 +71,9 @@ export default Vue.extend({
                     return 1100;
             }
         },
+        watchlist(){
+            return this.$store.getters.watchlist
+        }
     },
     data() {
         return {
@@ -100,5 +106,28 @@ export default Vue.extend({
             overlays: [this.$SetupIndicator],
         };
     },
+
+    methods:{
+        addToWatchlist(){
+            // @ts-ignore
+            this.watchlist.push(this.stock)
+            let new_watchlist = this.watchlist
+            const db = firebase.firestore()
+            db.collection('users').doc(this.$store.getters.email).update({
+                watchlist: new_watchlist
+            })
+            this.$store.commit('setWatchlist', new_watchlist)
+
+        },
+        removeFromWatchlist(){
+            // @ts-ignore
+            let new_watchlist = this.watchlist.filter(e => e != this.stock)
+            const db = firebase.firestore()
+            db.collection('users').doc(this.$store.getters.email).update({
+                watchlist: new_watchlist
+            })
+            this.$store.commit('setWatchlist', new_watchlist)
+        }
+    }
 });
 </script>
