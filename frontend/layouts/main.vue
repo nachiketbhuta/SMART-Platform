@@ -46,7 +46,7 @@ export default Vue.extend({
         drawer: true,
         navItems: [
             { title: "Dashboard", icon: "mdi-view-dashboard", to: "/dashboard" },
-            { title: "Watchlists", icon: "mdi-image", to: "/watchlists" },
+            { title: "Watchlist", icon: "mdi-image", to: "/watchlists" },
             { title: "Media Analysis", icon: "mdi-help-box", to: "/analysis" },
         ],
     }),

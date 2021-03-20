@@ -9,7 +9,11 @@
                     Get started with
                     <span class="teal--text text--accent-4">Commercio</span>
                 </h5>
-                <v-btn v-if="!loggedIn" @click="login" class="white black--text mt-2">
+                <v-btn
+                    v-if="!loggedIn"
+                    @click="login"
+                    class="white black--text mt-2"
+                >
                     <v-img height="20" width="20" :src="googleIcon"></v-img>
                     <span class="ml-2">Login with Google</span>
                 </v-btn>
@@ -39,7 +43,7 @@ export default Vue.extend({
     },
     created() {
         if (this.$store.state.email != "") {
-            this.loggedIn = true
+            this.loggedIn = true;
         }
     },
     methods: {
@@ -65,6 +69,33 @@ export default Vue.extend({
                         this.$store.commit("setEmail", this.email);
                         this.$store.commit("setDisplayName", this.displayName);
                         this.$store.commit("setToken", token);
+
+                        //Check if new user
+                        const db = firebase.firestore();
+                        const userRef = db.collection("users").doc(user.email);
+                        userRef
+                            .get()
+                            .then((docSnapshot) => {
+                                if (!docSnapshot.exists) {
+                                    userRef.set({
+                                        email: user?.email,
+                                        watchlist: [
+                                            "INFY",
+                                            "TCS",
+                                            "ASIANPAINT",
+                                            "WIPRO",
+                                            "TATASTEEL",
+                                        ],
+                                    });
+                                }
+                            })
+                            .catch((err) => {
+                                console.error(
+                                    "Failed to fetch user data from firestore: "
+                                );
+                                console.log(err);
+                            });
+                        //End of check new user
 
                         this.$router.push("/dashboard");
                     }

@@ -15,10 +15,10 @@
             </trading-vue>
 
             <v-row>
-                <v-col>
+                <v-col cols="12" md="6">
                     <h1 class="text-h5">Top Tweets</h1>
                 </v-col>
-                <v-col>
+                <v-col cols="12" md="6">
                     <h1 class="text-h5">Top News</h1>
                 </v-col>
             </v-row>

@@ -1,7 +1,5 @@
 <template>
     <v-container>
-        <nuxt-link to="/">Home</nuxt-link>
-        <br />
         <v-row id="chartContainer">
             <v-col>
                <nuxt-child />
