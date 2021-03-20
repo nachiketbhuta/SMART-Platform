@@ -31,8 +31,10 @@
 </template>
 
 <script lang="ts">
+
 import Vue from "vue";
 import firebase from 'firebase'
+// @ts-ignore: Dont check
 import sample_data from "@/utils/sample_data.json";
 
 // import SetupIndicator from '~/components/SetupIndicator';
@@ -40,6 +42,7 @@ import sample_data from "@/utils/sample_data.json";
 // Using `components: true` in nuxt.config.js
 // import TradingVue from 'trading-vue-js'
 export default Vue.extend({
+    // @ts-ignore: Dont check
     async asyncData({ params }) {
         const stock = params.stock.toUpperCase();
         return {
@@ -52,12 +55,14 @@ export default Vue.extend({
     // Using `components: true` in nuxt.config.js
     // components: { TradingVue }
     computed: {
-        ext() {
+        ext(): any {
             // TODO: For some reason the injections are initially
             // 'undefined'
+            // @ts-ignore: Dont check
             return Object.values(this.$ChartExtensions || {});
         },
-        chartWidth() {
+        chartWidth(): any {
+            // @ts-ignore: Dont check
             switch (this.$vuetify.breakpoint.name) {
                 case "xs":
                     return 450;
@@ -71,7 +76,7 @@ export default Vue.extend({
                     return 1100;
             }
         },
-        watchlist(){
+        watchlist(): any{
             return this.$store.getters.watchlist
         }
     },
@@ -80,7 +85,9 @@ export default Vue.extend({
             price: 967.8,
             // TODO: For some reason the injections are initially
             // 'undefined'
+            // @ts-ignore: Dont check
             tradingVue: this.$DataCube
+            // @ts-ignore: Dont check
                 ? new this.$DataCube({
                       chart: {
                           type: "Candles",
@@ -103,6 +110,7 @@ export default Vue.extend({
                       ],
                   })
                 : {},
+                // @ts-ignore: Dont check
             overlays: [this.$SetupIndicator],
         };
     },
