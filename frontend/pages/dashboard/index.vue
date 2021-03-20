@@ -1,24 +1,28 @@
 <template>
     <div>
-        <v-card class="mt-5" color="secondary">
-            <v-row align="center" justify="start">
-                <v-col cols="12" md="3">
-                    <v-row align="center" justify="center">
-                        <v-avatar color="primary" size="80">
-                            <v-img :src="photoURL"></v-img>
-                        </v-avatar>
+        <v-row>
+            <v-col cols="12" md="6">
+                <v-card class="mt-5" color="secondary">
+                    <v-row align="center" justify="start">
+                        <v-col cols="12" md="3">
+                            <v-row align="center" justify="center" class="mt-3 ma-md-0">
+                                <v-avatar color="primary" size="80">
+                                    <v-img :src="photoURL"></v-img>
+                                </v-avatar>
+                            </v-row>
+                        </v-col>
+                        <v-col>
+                            <v-card-title class="justify-center justify-md-start">
+                                {{ $store.getters.displayName }}
+                            </v-card-title>
+                            <v-card-subtitle class="text-center text-md-left">
+                                {{ $store.getters.email }}
+                            </v-card-subtitle>
+                        </v-col>
                     </v-row>
-                </v-col>
-                <v-col class="text-center text-md-left">
-                    <v-card-title>
-                        {{ $store.getters.displayName }}
-                    </v-card-title>
-                    <v-card-subtitle>
-                        {{ $store.getters.email }}
-                    </v-card-subtitle>
-                </v-col>
-            </v-row>
-        </v-card>
+                </v-card>
+            </v-col>
+        </v-row>
         <h1 class="text-subtitle-1 mt-5">Watchlist</h1>
 
         <watchlist :items="watchlist" />
