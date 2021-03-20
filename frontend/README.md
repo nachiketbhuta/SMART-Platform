@@ -1,5 +1,8 @@
 # frontend
 
+## Setting up
+1. Rename .env-sample to .env and add all the firebase related credentials.
+
 ## Build Setup
 
 ```bash

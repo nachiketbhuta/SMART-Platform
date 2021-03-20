@@ -34,6 +34,8 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    // dotenv setup
+    '@nuxtjs/dotenv'
     //https://typed-vuex.roe.dev/getting-started-nuxt
     // 'nuxt-typed-vuex',
   ],
