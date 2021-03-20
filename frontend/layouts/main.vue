@@ -9,7 +9,7 @@
 
             <v-btn depressed @click="logout">Logout</v-btn>
         </v-app-bar>
-        <v-navigation-drawer color="teal" v-model="drawer" app>
+        <v-navigation-drawer color="teal" v-model="drawer" bottom app>
             <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title class="title">
