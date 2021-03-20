@@ -2,12 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from routers.nse import nse_router
+from routers.alpha import alpha_vantage_router
 
 app = FastAPI()
 
 origins = [
     "http://localhost",
-    "http://localhost:8080",
     "https://smart-platform-hacknitr.herokuapp.com"
 ]
 
@@ -20,6 +20,9 @@ app.add_middleware(
 )
 
 app.include_router(nse_router, prefix="/nse", tags=["nse"])
+app.include_router(alpha_vantage_router, prefix="/alpha", tags=["alpha"])
+
+
 
 @app.get("/")
 def index():
