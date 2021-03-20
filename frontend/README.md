@@ -1,7 +1,7 @@
 # frontend
 
 ## Setting up
-1. Rename .env-sample to .env and add all the firebase related credentials.
+1. Copy .env-sample and rename file to .env and add all the firebase related credentials.
 
 ## Build Setup
 

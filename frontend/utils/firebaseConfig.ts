@@ -10,9 +10,13 @@ const firebaseConfig = {
     appId: process.env.FIREBASE_APP_ID,
     measurementId: process.env.FIREBASE_MEASUREMENT_ID
 };
+console.log('Before Initialization: ', firebaseConfig);
 const provider = new firebase.auth.GoogleAuthProvider()
 
 if(!firebase.apps.length){
     firebase.initializeApp(firebaseConfig)
+    console.log('After Initialization: ', firebaseConfig);
 }
+
+console.log('After If Initialization: ', firebaseConfig);
 export { provider }
