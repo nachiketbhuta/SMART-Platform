@@ -2,7 +2,7 @@
     <v-container>
         <h1>Watchlist</h1>
         {{ valid }}
-        <v-form ref="form" v-model="valid">
+        <v-form @submit.prevent="search" ref="form" v-model="valid">
             <v-text-field
                 :rules="rules"
                 placeholder="Add a stock"
@@ -21,7 +21,11 @@
                         <v-btn :to="'/dashboard/' + item" icon>
                             <v-icon>mdi-open-in-new</v-icon>
                         </v-btn>
-                        <v-btn color="red" icon>
+                        <v-btn
+                            color="red"
+                            @click="removeFromWatchlist(item)"
+                            icon
+                        >
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                     </v-row>
@@ -43,15 +47,15 @@ export default Vue.extend({
         valid: false,
     }),
     computed: {
-        regex_for_rules(){
-            return new RegExp( this.watchlist.join( "|" ), "i");
+        regex_for_rules() {
+            return new RegExp(this.watchlist.join("|"), "i");
         },
         rules() {
             return [
                 (v: string) => !!v || "Value is required",
                 (v: string) => {
-                    const alreadyExists: Boolean = this.regex_for_rules.test(v)
-                    return !alreadyExists || "Already in Watchlist"
+                    const alreadyExists: Boolean = this.regex_for_rules.test(v);
+                    return !alreadyExists || "Already in Watchlist";
                 },
             ];
         },
@@ -60,20 +64,42 @@ export default Vue.extend({
         this.$store.commit("setPageTitle", "Watchlist");
     },
     mounted() {
-        const db = firebase.firestore();
-        db.collection("users")
-            .doc(this.$store.getters.email)
-            .get()
-            .then((doc) => {
-                if (!doc.exists) {
-                    alert(
-                        "User data not found in the database. Logout and Login again"
-                    );
-                } else {
-                    // @ts-ignore
-                    this.watchlist = doc.data().watchlist as string[];
-                }
-            });
+        this.getWatchlist();
+    },
+    methods: {
+        getWatchlist() {
+            const db = firebase.firestore();
+            db.collection("users")
+                .doc(this.$store.getters.email)
+                .get()
+                .then((doc) => {
+                    if (!doc.exists) {
+                        alert(
+                            "User data not found in the database. Logout and Login again"
+                        );
+                    } else {
+                        // @ts-ignore
+                        this.watchlist = doc.data().watchlist as string[];
+                    }
+                });
+        },
+        search() {
+            alert("Search");
+        },
+        removeFromWatchlist(item: string) {
+            const db = firebase.firestore();
+            db.collection("users")
+                .doc(this.$store.getters.email)
+                .update({
+                    watchlist: this.watchlist.filter((e) => e != item),
+                })
+                .catch((err) => {
+                    console.error("Error while deleting item in database: ")
+                    console.log(err)
+                })
+            
+            this.getWatchlist()
+        },
     },
 });
 </script>
