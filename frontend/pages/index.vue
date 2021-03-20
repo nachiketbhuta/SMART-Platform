@@ -50,58 +50,77 @@ export default Vue.extend({
         login() {
             firebase
                 .auth()
-                .signInWithPopup(provider)
-                .then((result) => {
-                    /** @type {firebase.auth.OAuthCredential} */
-                    let credential = result.credential;
-                    // @ts-ignore
-                    let token = credential.accessToken;
-                    let user = result.user;
+                .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+                .then(() => {
+                    return firebase
+                        .auth()
+                        .signInWithPopup(provider)
+                        .then((result) => {
+                            /** @type {firebase.auth.OAuthCredential} */
+                            let credential = result.credential;
+                            // @ts-ignore
+                            let token = credential.accessToken;
+                            let user = result.user;
 
-                    console.log(user);
-                    console.log(token);
+                            console.log(user);
+                            console.log(token);
 
-                    if (user?.email && user?.displayName) {
-                        this.email = user?.email;
-                        this.displayName = user?.displayName;
-                        this.token = token;
+                            if (user?.email && user?.displayName) {
+                                this.email = user?.email;
+                                this.displayName = user?.displayName;
+                                this.token = token;
 
-                        this.$store.commit("setEmail", this.email);
-                        this.$store.commit("setDisplayName", this.displayName);
-                        this.$store.commit("setToken", token);
-
-                        //Check if new user
-                        const db = firebase.firestore();
-                        const userRef = db.collection("users").doc(user.email);
-                        userRef
-                            .get()
-                            .then((docSnapshot) => {
-                                if (!docSnapshot.exists) {
-                                    userRef.set({
-                                        email: user?.email,
-                                        watchlist: [
-                                            "INFY",
-                                            "TCS",
-                                            "ASIANPAINT",
-                                            "WIPRO",
-                                            "TATASTEEL",
-                                        ],
-                                    });
-                                }
-                            })
-                            .catch((err) => {
-                                console.error(
-                                    "Failed to fetch user data from firestore: "
+                                this.$store.commit("setEmail", this.email);
+                                this.$store.commit(
+                                    "setDisplayName",
+                                    this.displayName
                                 );
-                                console.log(err);
-                            });
-                        //End of check new user
+                                this.$store.commit("setToken", token);
 
-                        this.$router.push("/dashboard");
-                    }
+                                //Check if new user
+                                const db = firebase.firestore();
+                                const userRef = db
+                                    .collection("users")
+                                    .doc(user.email);
+                                userRef
+                                    .get()
+                                    .then((docSnapshot) => {
+                                        if (!docSnapshot.exists) {
+                                            userRef.set({
+                                                email: user?.email,
+                                                watchlist: [
+                                                    "INFY",
+                                                    "TCS",
+                                                    "ASIANPAINT",
+                                                    "WIPRO",
+                                                    "TATASTEEL",
+                                                ],
+                                            });
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        console.error(
+                                            "Failed to fetch user data from firestore: "
+                                        );
+                                        console.log(err);
+                                    });
+                                //End of check new user
+
+                                this.$router.push("/dashboard");
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(
+                                "Error while trying to sign in: \n" + error
+                            );
+                        });
                 })
                 .catch((error) => {
-                    console.error("Error while trying to sign in: \n" + error);
+                    // Handle Errors here.
+                    let errorCode = error.code;
+                    let errorMessage = error.message;
+                    console.log("Errorcode: " + errorCode)
+                    console.log("ErrorMessage: " +errorMessage)
                 });
         },
     },

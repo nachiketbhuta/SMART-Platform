@@ -41,6 +41,10 @@
 
 <script lang="ts">
 import Vue from "vue";
+
+import '@/utils/firebaseConfig' //To initialize app if not done already (i.e. when refreshing)
+import firebase from 'firebase'
+
 export default Vue.extend({
     data: () => ({
         drawer: true,
@@ -60,6 +64,8 @@ export default Vue.extend({
             this.$store.commit("setEmail", "");
             this.$store.commit("setDisplayName", "");
             this.$store.commit("setToken", "");
+
+            firebase.auth().signOut()
 
             this.$router.push("/");
         },

@@ -2,7 +2,7 @@
     <v-container>
         <h1>Watchlist</h1>
         {{ valid }}
-        <v-form @submit.prevent="search" ref="form" v-model="valid">
+        <v-form @submit.prevent="searchAndAdd" ref="form" v-model="valid">
             <v-text-field
                 :rules="rules"
                 placeholder="Add a stock"
@@ -83,8 +83,10 @@ export default Vue.extend({
                     }
                 });
         },
-        search() {
-            alert("Search");
+        searchAndAdd() {
+            if(this.valid){
+                alert(this.search);
+            }
         },
         removeFromWatchlist(item: string) {
             const db = firebase.firestore();

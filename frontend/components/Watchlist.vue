@@ -1,7 +1,6 @@
 <template>
     <v-list>
-        <p>Selected item no: {{ selected }}</p>
-        <v-list-item-group color="info" mandatory v-model="selected">
+        <v-list-item-group color="info" mandatory>
             <v-list-item v-for="(item, i) in items" :key="i" link :to="'/dashboard/' + item">
                 <v-list-item-content>
                     <v-list-item-title v-text="item"></v-list-item-title>
@@ -24,7 +23,7 @@ export default Vue.extend({
         },
     },
     data: () => ({
-        selected: 0,
+        // selected: 0,
     }),
 });
 </script>
