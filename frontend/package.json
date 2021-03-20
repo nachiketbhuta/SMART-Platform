@@ -13,9 +13,13 @@
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.3.5",
+    "cookie": "^0.4.1",
     "core-js": "^3.8.3",
     "firebase": "^8.3.1",
-    "nuxt": "^2.14.12"
+    "js-cookie": "^2.2.1",
+    "nuxt": "^2.14.12",
+    "nuxt-typed-vuex": "^0.1.22",
+    "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.12",
