@@ -2334,6 +2334,11 @@ array-unique@^0.3.2:
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
   integrity sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=
 
+arrayslicer@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/arrayslicer/-/arrayslicer-1.2.3.tgz#21a4903102a9aba7d8a73c44bf57f3e28c560136"
+  integrity sha1-IaSQMQKpq6fYpzxEv1fz4oxWATY=
+
 arrify@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-2.0.1.tgz#c9655e9331e0abcd588d2a7cad7e9956f66701fa"
@@ -4435,6 +4440,16 @@ hable@^3.0.0:
   resolved "https://registry.yarnpkg.com/hable/-/hable-3.0.0.tgz#6de089b2df946635cf8134b9e4859f1b62de255f"
   integrity sha512-7+G0/2/COR8pwteYFqHIVYfQpuEiO2HXwJrhCBJVgrNrl9O5eaUoJVDGXUJX+0RpGncNVTuestexjk1afj01wQ==
 
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+  integrity sha1-BO93hiz/K7edMPdpIJWTAiK/YPE=
+
+hamsterjs@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/hamsterjs/-/hamsterjs-1.1.3.tgz#4adc6b9100a3fcc7c65fc391debb249901a50df6"
+  integrity sha512-q4XBr7hnxx1WyZA8mpVDuZVa1YXaR0WZaFSBxnj8hUXltuqXJOt5yuWYkAbMXsj+q0REDUO990+/TuxEadXFyg==
+
 hard-source-webpack-plugin@^0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/hard-source-webpack-plugin/-/hard-source-webpack-plugin-0.13.1.tgz#a99071e25b232f1438a5bc3c99f10a3869e4428e"
@@ -5438,6 +5453,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+lz-string@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
+  integrity sha1-wNjq82BZ9wV5bh40SBHPTEmNOiY=
+
 make-dir@^1.0.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-1.3.0.tgz#79c1033b80515bd6d24ec9933e860ca75ee27f0c"
@@ -5706,6 +5726,11 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
+
+moment@^2.29.1:
+  version "2.29.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+  integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -8217,6 +8242,19 @@ totalist@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/totalist/-/totalist-1.1.0.tgz#a4d65a3e546517701e3e5c37a47a70ac97fe56df"
   integrity sha512-gduQwd1rOdDMGxFG1gEvhV88Oirdo2p+KjoYFU7k2g+i7n6AFFbDQ5kMPUsW0pNbfQsB/cwXvT1i4Bue0s9g5g==
+
+trading-vue-js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/trading-vue-js/-/trading-vue-js-1.0.2.tgz#cdc29dda457a72db13123c0b21514ee8eae51c24"
+  integrity sha512-RObZR4OF5rtdgh/CyyRv0soPxlVlwHudlpAziOeQeOeId4j/2RcGUSp4/lKwzYo8b51tnAiRnMtDS+ZSmg208g==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    arrayslicer "^1.2.3"
+    hammerjs "^2.0.8"
+    hamsterjs "^1.1.3"
+    lz-string "^1.4.4"
+    moment "^2.29.1"
+    vue "^2.6.12"
 
 ts-loader@^8.0.17:
   version "8.0.18"
