@@ -44,7 +44,9 @@
             </v-list>
         </v-navigation-drawer>
         <v-main>
-            <nuxt />
+            <v-slide-x-transition>
+                <nuxt />
+            </v-slide-x-transition>
         </v-main>
     </v-app>
 </template>

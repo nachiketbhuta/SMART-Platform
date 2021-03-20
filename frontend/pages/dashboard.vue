@@ -2,10 +2,11 @@
     <v-container>
         <v-row id="chartContainer">
             <v-col>
-               <nuxt-child />
+                <!-- <v-slide-x-transition> -->
+                    <nuxt-child />
+                <!-- </v-slide-x-transition> -->
             </v-col>
         </v-row>
-
     </v-container>
 </template>
 
@@ -18,9 +19,7 @@ export default Vue.extend({
             redirect(200, "/");
         }
     },
-    data: () => ({
-      
-    }),
+    data: () => ({}),
     created() {
         this.$store.commit("setPageTitle", "Dashboard");
     },

@@ -41,7 +41,7 @@ import sample_data from "@/utils/sample_data.json";
 // import TradingVue from 'trading-vue-js'
 export default Vue.extend({
     async asyncData({ params }) {
-        const stock = params.stock;
+        const stock = params.stock.toUpperCase();
         return {
             stock,
         };

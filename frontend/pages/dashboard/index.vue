@@ -2,7 +2,7 @@
     <div>
         <v-row>
             <v-col cols="12" md="6">
-                <v-card class="mt-5" color="secondary">
+                <v-card class="mt-5">
                     <v-row align="center" justify="start">
                         <v-col cols="12" md="3">
                             <v-row align="center" justify="center" class="mt-3 ma-md-0">
