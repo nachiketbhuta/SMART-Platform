@@ -22,7 +22,10 @@ api = tweepy.API(auth)
 async def get_stock_tweets(stock: str):
     results = api.search(q=stock, count=5, tweet_mode='extended')
     tweets = []
+    urls = []
     for tweet in results:
+        url = f"https://twitter.com/user/status/{tweet.id}"
+        urls.append(url)
         tweets.append(tweet.full_text)
     confidence = sentiment.average_sentiment(tweets)
-    return [{"tweets": tweets, "confidence": confidence}]
+    return [{"tweets": tweets, "urls": urls, "confidence": confidence}]
