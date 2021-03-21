@@ -6,8 +6,8 @@ export default {
 
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
-        titleTemplate: "%s - frontend",
-        title: "frontend",
+        titleTemplate: "%s - Commercio",
+        title: "Commercio",
         meta: [
             { charset: "utf-8" },
             {
@@ -25,7 +25,7 @@ export default {
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
         { src: "~/plugins/persistedState.client.js" },
-        { src: "~/plugins/trading-vue.client.js", mode: 'client' }
+        { src: "~/plugins/trading-vue.client.js" }
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
