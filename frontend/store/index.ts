@@ -9,7 +9,6 @@ export const state = () => ({
     watchlist: [],
     alpha_api_key: "GMF5WJDMLV73230F",
     api_url: "localhost:8000",
-    stockData: []
 });
 
 export type RootState = ReturnType<typeof state>;
@@ -24,7 +23,6 @@ export const getters: GetterTree<RootState, RootState> = {
     watchlist: state => state.watchlist,
     alpha_api_key: state => state.alpha_api_key,
     api_url: state => state.api_url,
-    stockData: state => state.stockData,
 };
 
 export const mutations: MutationTree<RootState> = {
@@ -43,7 +41,5 @@ export const mutations: MutationTree<RootState> = {
     setWatchlist(state, payload) {
         state.watchlist = payload;
     },
-    setStockData(state, payload) {
-        state.stockData = payload;
-    }
+
 };

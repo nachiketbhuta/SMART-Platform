@@ -3,7 +3,7 @@
         <div>
             <v-card color="teal" class="my-3">
                 <v-card-title> {{ stock }} </v-card-title>
-                <v-card-subtitle> {{ price }} </v-card-subtitle>
+                <!-- <v-card-subtitle> {{ price }} </v-card-subtitle> -->
                 <v-card-actions>
                     <v-btn
                         v-if="!watchlist.includes(stock)"
@@ -63,7 +63,39 @@ export default Vue.extend({
         const stock = params.stock.toUpperCase();
         const api_url = store.getters.api_url;
 
-        const stock_data = await $axios.$get("http://" + api_url + `/alpha/timeseries/${stock}/TIME_SERIES_MONTHLY`)
+        const stock_data = await $axios.$get(
+            "http://" +
+                api_url +
+                `/alpha/timeseries/${stock}/TIME_SERIES_MONTHLY`
+        );
+
+        //PROCESS RAW DATA
+        const finalData = await new Promise((resolve, reject) => {
+            try {
+                // @ts-ignore
+                const data = stock_data["Monthly Time Series"];
+                let new_data: any[][] = [];
+
+                for (const [key, value] of Object.entries(data)) {
+                    //Convert key in normal date form to seconds and put in array as first
+                    let to_push = [new Date(key).getTime()];
+                    for (const [key2, value2] of Object.entries(
+                        value as Object
+                    )) {
+                        to_push.push(+value2);
+                    }
+                    new_data.push(to_push);
+                }
+                //Finally reverse the array, as we need in ascending order dates low to high
+                new_data.reverse();
+
+                resolve(new_data);
+            } catch (e) {
+                reject(e);
+            }
+        });
+
+        //END OF PROCESSING RAW DATA
 
         //Testing purpose
         // const stock_data = INFY_MONTHLY;
@@ -71,9 +103,13 @@ export default Vue.extend({
         return {
             stock,
             stock_data,
+            finalData,
         };
     },
     name: "StockChart",
+    // watch:{
+    //     '$route': 'process_raw_stock_data'
+    // },
 
     // Importing manually will also throw `windows is not defined error`
     // Using `components: true` in nuxt.config.js
@@ -111,7 +147,7 @@ export default Vue.extend({
                       chart: {
                           type: "Candles",
                           // @ts-ignore
-                          data: this.$store.getters.stockData,
+                          data: this.finalData,
                       },
                       onchart: [
                           {
@@ -127,7 +163,6 @@ export default Vue.extend({
     },
     data() {
         return {
-            price: 967.8,
             finalData: [] as any[],
 
             // @ts-ignore: Dont check
@@ -153,8 +188,6 @@ export default Vue.extend({
             new_data.reverse();
             console.log(new_data);
 
-            this.$store.commit("setStockData", new_data);
-
             this.finalData = new_data;
         },
         addToWatchlist() {
@@ -178,7 +211,7 @@ export default Vue.extend({
         },
     },
     created() {
-        this.process_raw_stock_data();
+        // this.process_raw_stock_data();
     },
     mounted() {},
 });
