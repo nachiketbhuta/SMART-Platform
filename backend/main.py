@@ -1,6 +1,5 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
+from starlette.middleware.cors import CORSMiddleware
 from routers.nse import nse_router
 from routers.alpha import alpha_vantage_router
 from routers.news import news_router
