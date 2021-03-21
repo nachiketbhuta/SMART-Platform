@@ -1,7 +1,7 @@
 import nltk, string, re
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
-ntlk.downloader("vader_lexicon")
+nltk.downloader("vader_lexicon")
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('stopwords')
