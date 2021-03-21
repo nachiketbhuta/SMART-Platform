@@ -31,12 +31,26 @@
             >
             </trading-vue>
 
-            <v-row>
+            <v-row class="mt-5">
                 <v-col cols="12" md="6">
                     <h1 class="text-h5">Top Tweets</h1>
+                    <v-list>
+                        <v-list-item-group>
+                            <v-list-item v-for="tweet in tweets" :key="tweet" :href="tweet[1]">
+                                <v-list-item-title>tweet[0]</v-list-item-title>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list>
                 </v-col>
                 <v-col cols="12" md="6">
                     <h1 class="text-h5">Top News</h1>
+                    <v-list>
+                        <v-list-item-group>
+                            <v-list-item v-for="newsitem in news" :key="newsitem" :href="newsitem[1]">
+                                <v-list-item-title>newsitem[0]</v-list-item-title>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list>
                 </v-col>
             </v-row>
         </div>
@@ -68,6 +82,19 @@ export default Vue.extend({
                 api_url +
                 `/alpha/timeseries/${stock}/TIME_SERIES_MONTHLY`
         );
+
+        const news = await $axios.$get(
+            "http://" +
+                api_url +
+                `/news/${stock}/news`
+        );
+
+        const tweets = await $axios.$get(
+            "http://" +
+                api_url +
+                `/tweets/${stock}/tweets`
+        );
+
 
         //PROCESS RAW DATA
         const finalData = await new Promise((resolve, reject) => {
@@ -102,14 +129,12 @@ export default Vue.extend({
 
         return {
             stock,
-            stock_data,
             finalData,
+            news,
+            tweets
         };
     },
     name: "StockChart",
-    // watch:{
-    //     '$route': 'process_raw_stock_data'
-    // },
 
     // Importing manually will also throw `windows is not defined error`
     // Using `components: true` in nuxt.config.js
@@ -171,25 +196,7 @@ export default Vue.extend({
     },
 
     methods: {
-        process_raw_stock_data() {
-            // @ts-ignore
-            const data = this.stock_data["Monthly Time Series"];
-            let new_data: any[][] = [];
-
-            for (const [key, value] of Object.entries(data)) {
-                //Convert key in normal date form to seconds and put in array as first
-                let to_push = [new Date(key).getTime()];
-                for (const [key2, value2] of Object.entries(value as Object)) {
-                    to_push.push(+value2);
-                }
-                new_data.push(to_push);
-            }
-            //Finally reverse the array, as we need in ascending order dates low to high
-            new_data.reverse();
-            console.log(new_data);
-
-            this.finalData = new_data;
-        },
+ 
         addToWatchlist() {
             // @ts-ignore
             this.watchlist.push(this.stock);
@@ -210,9 +217,6 @@ export default Vue.extend({
             this.$store.commit("setWatchlist", new_watchlist);
         },
     },
-    created() {
-        // this.process_raw_stock_data();
-    },
-    mounted() {},
+
 });
 </script>
