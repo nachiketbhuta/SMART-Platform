@@ -34,10 +34,11 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Install nltk stuff
       run: |
-        python nltk.downloader.download('vader_lexicon')
-        python nltk.download('punkt')
-        python nltk.download('wordnet')
-        python nltk.download('stopwords')
+        import nltk
+        python -m nltk.downloader vader_lexicon
+        python -m nltk.downloader punkt
+        python -m nltk.downloader wordnet
+        python -m nltk.downloader stopwords
     - name: Test with pytest
       run: |
         cd backend && pytest
