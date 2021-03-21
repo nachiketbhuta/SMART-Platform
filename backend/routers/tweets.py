@@ -20,9 +20,12 @@ api = tweepy.API(auth)
 
 @tweets_router.get("/{stock}/tweets")
 async def get_stock_tweets(stock: str):
-    results = api.search(q=stock, count=5, tweet_mode='extended')
-    tweets = []
-    for tweet in results:
-        tweets.append(tweet.full_text)
-    confidence = sentiment.average_sentiment(tweets)
-    return [{"tweets": tweets, "confidence": confidence}]
+    try:
+        results = api.search(q=stock, count=5, tweet_mode='extended')
+        tweets = []
+        for tweet in results:
+            tweets.append(tweet.full_text)
+        confidence = sentiment.average_sentiment(tweets)
+        return [{"tweets": tweets, "confidence": confidence}]
+    except HTTPError:
+        return {"success": False, "message": "Not Found"} 
