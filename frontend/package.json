@@ -17,7 +17,6 @@
     "core-js": "^3.8.3",
     "firebase": "^8.3.1",
     "js-cookie": "^2.2.1",
-    "lightweight-charts": "^3.3.0",
     "nuxt": "^2.14.12",
     "nuxt-typed-vuex": "^0.1.22",
     "trading-vue-js": "^1.0.2",

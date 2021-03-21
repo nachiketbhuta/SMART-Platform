@@ -1,12 +1,9 @@
 <template>
     <client-only>
         <div>
-            <div id="chartContainer">
-            </div>
-            <Chart width="500" :data="finalData" />
             <v-card color="teal" class="my-3">
                 <v-card-title> {{ stock }} </v-card-title>
-                <v-card-subtitle> {{ price }} </v-card-subtitle>
+                <!-- <v-card-subtitle> {{ price }} </v-card-subtitle> -->
                 <v-card-actions>
                     <v-btn
                         v-if="!watchlist.includes(stock)"
@@ -34,12 +31,26 @@
             >
             </trading-vue>
 
-            <v-row>
+            <v-row class="mt-5">
                 <v-col cols="12" md="6">
                     <h1 class="text-h5">Top Tweets</h1>
+                    <v-list>
+                        <v-list-item-group>
+                            <v-list-item v-for="tweet in tweets" :key="tweet" :href="tweet[1]">
+                                <v-list-item-title>tweet[0]</v-list-item-title>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list>
                 </v-col>
                 <v-col cols="12" md="6">
                     <h1 class="text-h5">Top News</h1>
+                    <v-list>
+                        <v-list-item-group>
+                            <v-list-item v-for="newsitem in news" :key="newsitem" :href="newsitem[1]">
+                                <v-list-item-title>newsitem[0]</v-list-item-title>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list>
                 </v-col>
             </v-row>
         </div>
@@ -53,9 +64,8 @@
 import Vue from "vue";
 import firebase from "firebase";
 // @ts-ignore: Dont check
-import sample_data from "@/utils/sample_data.json";
-import INFY_MONTHLY from "@/utils/INFY_MONTHLY.json";
-
+// import sample_data from "@/utils/sample_data.json";
+// import INFY_MONTHLY from "@/utils/INFY_MONTHLY.json";
 
 // import SetupIndicator from '~/components/SetupIndicator';
 // Importing manually will also throw `windows is not defined error`
@@ -63,18 +73,65 @@ import INFY_MONTHLY from "@/utils/INFY_MONTHLY.json";
 // import TradingVue from 'trading-vue-js'
 export default Vue.extend({
     // @ts-ignore: Dont check
-    async asyncData({ params, store, $axios, $DataCube }) {
+    async asyncData({ params, store, $axios }) {
         const stock = params.stock.toUpperCase();
         const api_url = store.getters.api_url;
 
-        // const stock_data = await $axios.$get(api_url + `/alpha/timeseries/${stock}/TIME_SERIES_MONTHLY`)
+        const stock_data = await $axios.$get(
+            "http://" +
+                api_url +
+                `/alpha/timeseries/${stock}/TIME_SERIES_MONTHLY`
+        );
+
+        const news = await $axios.$get(
+            "http://" +
+                api_url +
+                `/news/${stock}/news`
+        );
+
+        const tweets = await $axios.$get(
+            "http://" +
+                api_url +
+                `/tweets/${stock}/tweets`
+        );
+
+
+        //PROCESS RAW DATA
+        const finalData = await new Promise((resolve, reject) => {
+            try {
+                // @ts-ignore
+                const data = stock_data["Monthly Time Series"];
+                let new_data: any[][] = [];
+
+                for (const [key, value] of Object.entries(data)) {
+                    //Convert key in normal date form to seconds and put in array as first
+                    let to_push = [new Date(key).getTime()];
+                    for (const [key2, value2] of Object.entries(
+                        value as Object
+                    )) {
+                        to_push.push(+value2);
+                    }
+                    new_data.push(to_push);
+                }
+                //Finally reverse the array, as we need in ascending order dates low to high
+                new_data.reverse();
+
+                resolve(new_data);
+            } catch (e) {
+                reject(e);
+            }
+        });
+
+        //END OF PROCESSING RAW DATA
 
         //Testing purpose
-        const stock_data = INFY_MONTHLY;
+        // const stock_data = INFY_MONTHLY;
 
         return {
             stock,
-            stock_data,
+            finalData,
+            news,
+            tweets
         };
     },
     name: "StockChart",
@@ -107,20 +164,15 @@ export default Vue.extend({
         watchlist(): any {
             return this.$store.getters.watchlist;
         },
-    },
-    data() {
-        return {
-            price: 967.8,
-            finalData: [] as any[],
-            // TODO: For some reason the injections are initially
-            // 'undefined'
-            // @ts-ignore: Dont check
-            tradingVue: this.$DataCube
+        tradingVue() {
+            // @ts-ignore
+            return this.$DataCube
                 ? // @ts-ignore: Dont check
                   new this.$DataCube({
                       chart: {
                           type: "Candles",
-                          data: sample_data.chart.data,
+                          // @ts-ignore
+                          data: this.finalData,
                       },
                       onchart: [
                           {
@@ -131,34 +183,20 @@ export default Vue.extend({
                           },
                       ],
                   })
-                : {},
+                : {};
+        },
+    },
+    data() {
+        return {
+            finalData: [] as any[],
+
             // @ts-ignore: Dont check
             overlays: [this.$SetupIndicator],
         };
     },
 
     methods: {
-        process_raw_stock_data() {
-            // @ts-ignore
-            const data = this.stock_data["Monthly Time Series"];
-            let new_data: any[][] = [];
-
-            for (const [key, value] of Object.entries(data)) {
-                //Convert key in normal date form to seconds and put in array as first
-                let to_push = [new Date(key).getTime()];
-                for (const [key2, value2] of Object.entries(value as Object)) {
-                    to_push.push(value2);
-                }
-                new_data.push(to_push);
-            }
-            //Finally reverse the array, as we need in ascending order dates low to high
-            new_data.reverse();
-            console.log(new_data);
-
-            this.$store.commit("setStockData", new_data);
-
-            this.finalData = new_data
-        },
+ 
         addToWatchlist() {
             // @ts-ignore
             this.watchlist.push(this.stock);
@@ -179,10 +217,6 @@ export default Vue.extend({
             this.$store.commit("setWatchlist", new_watchlist);
         },
     },
-    created() {
-        this.process_raw_stock_data();
-    },
-    mounted() {
-    }
+
 });
 </script>
