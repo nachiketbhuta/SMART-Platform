@@ -1,5 +1,5 @@
 import os
-
+from __future__ import unicode_literals
 import routers.sentiment as sentiment
 import tweepy
 from dotenv import load_dotenv
