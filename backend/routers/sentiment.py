@@ -1,11 +1,6 @@
 import nltk, string, re
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
-nltk.downloader("vader_lexicon")
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('stopwords')
-
 stemmer = nltk.stem.porter.PorterStemmer()
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
