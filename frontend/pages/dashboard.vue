@@ -2,9 +2,7 @@
     <v-container>
         <v-row id="chartContainer">
             <v-col>
-                <!-- <v-slide-x-transition> -->
-                    <nuxt-child />
-                <!-- </v-slide-x-transition> -->
+                <nuxt-child />
             </v-col>
         </v-row>
     </v-container>
