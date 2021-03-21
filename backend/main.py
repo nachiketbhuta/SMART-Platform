@@ -15,6 +15,13 @@ origins = [
     "http://localhost:3000",
 ]
 
+
+
+app.include_router(nse_router, prefix="/nse", tags=["nse"])
+app.include_router(alpha_vantage_router, prefix="/alpha", tags=["alpha"])
+app.include_router(news_router, prefix="/news", tags=["news"])
+app.include_router(tweets_router, prefix="/tweets", tags=["tweets"])
+
 app.add_middleware(
     CORSMiddleware,
     # allow_origins=origins,
@@ -23,13 +30,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.include_router(nse_router, prefix="/nse", tags=["nse"])
-app.include_router(alpha_vantage_router, prefix="/alpha", tags=["alpha"])
-app.include_router(news_router, prefix="/news", tags=["news"])
-app.include_router(tweets_router, prefix="/tweets", tags=["tweets"])
-
-
 
 @app.get("/")
 def index():
