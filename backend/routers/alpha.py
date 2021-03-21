@@ -4,6 +4,8 @@ import requests
 from dotenv import load_dotenv
 from fastapi import APIRouter
 
+from urllib.error import HTTPError
+
 load_dotenv()
 alpha_vantage_router = APIRouter()
 API_KEY = os.getenv("API_KEY")

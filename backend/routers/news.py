@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 import finviz
+from urllib.error import HTTPError
 
 news_router = APIRouter()
 

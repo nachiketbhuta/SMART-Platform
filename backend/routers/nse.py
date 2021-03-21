@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
 from nsetools import Nse
+from urllib.error import HTTPError
 
 nse = Nse()
 nse_router = APIRouter()

@@ -5,6 +5,8 @@ import tweepy
 from dotenv import load_dotenv
 from fastapi import APIRouter
 
+from urllib.error import HTTPError
+
 load_dotenv()
 tweets_router = APIRouter()
 consumer_key = os.getenv('CONSUMER_KEY')
