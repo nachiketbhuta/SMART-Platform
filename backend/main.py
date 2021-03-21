@@ -10,8 +10,10 @@ app = FastAPI()
 
 origins = [
     "http://localhost",
+    "https://smart-platform-hacknitr.herokuapp.com",
+    "http://smart-platform-hacknitr.herokuapp.com",
     "http://localhost:8081",
-    "https://smart-platform-hacknitr.herokuapp.com"
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
