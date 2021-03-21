@@ -1,9 +1,6 @@
 <template>
     <client-only>
         <div>
-            <div id="chartContainer">
-            </div>
-            <Chart width="500" :data="finalData" />
             <v-card color="teal" class="my-3">
                 <v-card-title> {{ stock }} </v-card-title>
                 <v-card-subtitle> {{ price }} </v-card-subtitle>
@@ -53,9 +50,8 @@
 import Vue from "vue";
 import firebase from "firebase";
 // @ts-ignore: Dont check
-import sample_data from "@/utils/sample_data.json";
-import INFY_MONTHLY from "@/utils/INFY_MONTHLY.json";
-
+// import sample_data from "@/utils/sample_data.json";
+// import INFY_MONTHLY from "@/utils/INFY_MONTHLY.json";
 
 // import SetupIndicator from '~/components/SetupIndicator';
 // Importing manually will also throw `windows is not defined error`
@@ -63,14 +59,14 @@ import INFY_MONTHLY from "@/utils/INFY_MONTHLY.json";
 // import TradingVue from 'trading-vue-js'
 export default Vue.extend({
     // @ts-ignore: Dont check
-    async asyncData({ params, store, $axios, $DataCube }) {
+    async asyncData({ params, store, $axios }) {
         const stock = params.stock.toUpperCase();
         const api_url = store.getters.api_url;
 
-        // const stock_data = await $axios.$get(api_url + `/alpha/timeseries/${stock}/TIME_SERIES_MONTHLY`)
+        const stock_data = await $axios.$get("http://" + api_url + `/alpha/timeseries/${stock}/TIME_SERIES_MONTHLY`)
 
         //Testing purpose
-        const stock_data = INFY_MONTHLY;
+        // const stock_data = INFY_MONTHLY;
 
         return {
             stock,
@@ -107,20 +103,15 @@ export default Vue.extend({
         watchlist(): any {
             return this.$store.getters.watchlist;
         },
-    },
-    data() {
-        return {
-            price: 967.8,
-            finalData: [] as any[],
-            // TODO: For some reason the injections are initially
-            // 'undefined'
-            // @ts-ignore: Dont check
-            tradingVue: this.$DataCube
+        tradingVue() {
+            // @ts-ignore
+            return this.$DataCube
                 ? // @ts-ignore: Dont check
                   new this.$DataCube({
                       chart: {
                           type: "Candles",
-                          data: sample_data.chart.data,
+                          // @ts-ignore
+                          data: this.$store.getters.stockData,
                       },
                       onchart: [
                           {
@@ -131,7 +122,14 @@ export default Vue.extend({
                           },
                       ],
                   })
-                : {},
+                : {};
+        },
+    },
+    data() {
+        return {
+            price: 967.8,
+            finalData: [] as any[],
+
             // @ts-ignore: Dont check
             overlays: [this.$SetupIndicator],
         };
@@ -147,7 +145,7 @@ export default Vue.extend({
                 //Convert key in normal date form to seconds and put in array as first
                 let to_push = [new Date(key).getTime()];
                 for (const [key2, value2] of Object.entries(value as Object)) {
-                    to_push.push(value2);
+                    to_push.push(+value2);
                 }
                 new_data.push(to_push);
             }
@@ -157,7 +155,7 @@ export default Vue.extend({
 
             this.$store.commit("setStockData", new_data);
 
-            this.finalData = new_data
+            this.finalData = new_data;
         },
         addToWatchlist() {
             // @ts-ignore
@@ -182,7 +180,6 @@ export default Vue.extend({
     created() {
         this.process_raw_stock_data();
     },
-    mounted() {
-    }
+    mounted() {},
 });
 </script>
