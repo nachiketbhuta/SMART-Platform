@@ -1,5 +1,4 @@
 import { GetterTree, MutationTree } from "vuex";
-import infy_monthly from "@/utils/INFY_MONTHLY.json";
 
 export const state = () => ({
     email: "",
@@ -8,7 +7,7 @@ export const state = () => ({
     pageTitle: "Commercio",
     watchlist: [],
     alpha_api_key: "GMF5WJDMLV73230F",
-    api_url: "localhost:8000",
+    api_url: "smart-platform-hacknitr.herokuapp.com",
 });
 
 export type RootState = ReturnType<typeof state>;

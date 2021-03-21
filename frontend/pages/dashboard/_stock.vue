@@ -36,8 +36,8 @@
                     <h1 class="text-h5">Top Tweets</h1>
                     <v-list>
                         <v-list-item-group>
-                            <v-list-item v-for="tweet in tweets" :key="tweet" :href="tweet[1]">
-                                <v-list-item-title>tweet[0]</v-list-item-title>
+                            <v-list-item v-for="(tweet, i) in tweetsData['tweets']" :key="tweet" :href="tweetsData['urls'][i]">
+                                <v-list-item-title>{{tweet}}</v-list-item-title>
                             </v-list-item>
                         </v-list-item-group>
                     </v-list>
@@ -46,8 +46,15 @@
                     <h1 class="text-h5">Top News</h1>
                     <v-list>
                         <v-list-item-group>
-                            <v-list-item v-for="newsitem in news" :key="newsitem" :href="newsitem[1]">
-                                <v-list-item-title>newsitem[0]</v-list-item-title>
+                            <v-list-item
+                                v-for="newsitem in news['news']"
+                                :key="newsitem"
+                                :href="newsitem[1]"
+                                target="_blank"
+                            >
+                                <v-list-item-title>{{
+                                    newsitem[0]
+                                }}</v-list-item-title>
                             </v-list-item>
                         </v-list-item-group>
                     </v-list>
@@ -75,7 +82,8 @@ export default Vue.extend({
     // @ts-ignore: Dont check
     async asyncData({ params, store, $axios }) {
         const stock = params.stock.toUpperCase();
-        const api_url = store.getters.api_url;
+        // const api_url = store.getters.api_url;
+        const api_url = "smart-platform-hacknitr.herokuapp.com";
 
         const stock_data = await $axios.$get(
             "http://" +
@@ -84,17 +92,15 @@ export default Vue.extend({
         );
 
         const news = await $axios.$get(
-            "http://" +
-                api_url +
-                `/news/${stock}/news`
+            "http://" + api_url + `/news/${stock}/news`
         );
 
-        const tweets = await $axios.$get(
+        let tweetsData = await $axios.$get(
             "http://" +
                 api_url +
                 `/tweets/${stock}/tweets`
         );
-
+        tweetsData = tweetsData[0]
 
         //PROCESS RAW DATA
         const finalData = await new Promise((resolve, reject) => {
@@ -131,7 +137,7 @@ export default Vue.extend({
             stock,
             finalData,
             news,
-            tweets
+            tweetsData
         };
     },
     name: "StockChart",
@@ -196,7 +202,6 @@ export default Vue.extend({
     },
 
     methods: {
- 
         addToWatchlist() {
             // @ts-ignore
             this.watchlist.push(this.stock);
@@ -217,6 +222,5 @@ export default Vue.extend({
             this.$store.commit("setWatchlist", new_watchlist);
         },
     },
-
 });
 </script>

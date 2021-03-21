@@ -67,7 +67,6 @@ export default Vue.extend({
                 to: "/dashboard",
             },
             { title: "Watchlist", icon: "mdi-image", to: "/watchlists" },
-            { title: "Media Analysis", icon: "mdi-help-box", to: "/analysis" },
         ],
     }),
     computed: {
