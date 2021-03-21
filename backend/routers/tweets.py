@@ -4,8 +4,7 @@ import routers.sentiment as sentiment
 import tweepy
 from dotenv import load_dotenv
 from fastapi import APIRouter
-
-from urllib.error import HTTPError
+import requests
 
 load_dotenv()
 tweets_router = APIRouter()
@@ -29,5 +28,5 @@ async def get_stock_tweets(stock: str):
             tweets.append(tweet.full_text)
         confidence = sentiment.average_sentiment(tweets)
         return [{"tweets": tweets, "confidence": confidence}]
-    except HTTPError:
+    except requests.exceptions.HTTPError:
         return {"success": False, "message": "Not Found"} 

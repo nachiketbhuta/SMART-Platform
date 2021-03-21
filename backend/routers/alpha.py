@@ -4,7 +4,6 @@ import requests
 from dotenv import load_dotenv
 from fastapi import APIRouter
 
-from urllib.error import HTTPError
 
 load_dotenv()
 alpha_vantage_router = APIRouter()
@@ -33,7 +32,7 @@ async def get_fundamental_data(symbol: str, function: str):
     try:
         response = get_data(function, symbol, False)
         return response
-    except HTTPError:
+    except requests.exceptions.HTTPError:
         return {"success": False, "message": "Not Found"} 
 
 
@@ -42,7 +41,7 @@ async def get_series_data(symbol: str, function: str):
     try:
         response = get_data(function, symbol, True)
         return response
-    except HTTPError:
+    except requests.exceptions.HTTPError:
         return {"success": False, "message": "Not Found"} 
 
 
@@ -52,7 +51,7 @@ async def get_search_results(keywords: str):
         url = f'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={keywords}&apikey={API_KEY}'
         response = requests.get(url)
         return response.json()
-    except HTTPError:
+    except requests.exceptions.HTTPError:
         return {"success": False, "message": "Not Found"} 
 
 
@@ -62,7 +61,7 @@ async def get_sma_ema_rsi_data(symbol: str, function: str, interval: str, time_p
         url = f'https://www.alphavantage.co/query?function={function}&symbol={symbol}&interval={interval}&time_period={time_period}&series_type={series_type}&apikey={API_KEY}'
         response = requests.get(url)
         return response.json()
-    except HTTPError:
+    except requests.exceptions.HTTPError:
         return {"success": False, "message": "Not Found"} 
 
 
@@ -72,7 +71,7 @@ async def get_stoch_obv_data(symbol: str, function: str, interval: str):
         url = f'https://www.alphavantage.co/query?function={function}&symbol={symbol}&interval={interval}&apikey={API_KEY}'
         response = requests.get(url)
         return response.json()
-    except HTTPError:
+    except requests.exceptions.HTTPError:
         return {"success": False, "message": "Not Found"} 
 
 
@@ -82,5 +81,5 @@ async def get_adx_cci_data(symbol: str, function: str, interval: str, time_perio
         url = f'https://www.alphavantage.co/query?function={function}&symbol={symbol}&interval={interval}&time_period={time_period}&apikey={API_KEY}'
         response = requests.get(url)
         return response.json()
-    except HTTPError:
+    except requests.exceptions.HTTPError:
         return {"success": False, "message": "Not Found"} 
